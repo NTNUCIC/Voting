@@ -47,16 +47,9 @@ class VotingBLL extends BLLBase
         } elseif($uidal->uiidUsed($uiid)) {
             $log->add("識別碼已被使用!");
         } else {
-            $this->db->beginTransaction();
-            try {
-                $this->dal->vote($option);
-                $uidal->useUiid($uiid);
-                $log->add("投票成功!");
-                $this->db->commit();
-            } catch(Exception $ex) {
-                $log->add($ex->getMessage());
-                $this->db->rollBack();
-            }
+            $this->dal->vote($option);
+            $uidal->useUiid($uiid);
+            $log->add("投票成功!");
         }
         return $log;
     }

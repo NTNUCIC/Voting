@@ -66,7 +66,7 @@ $data=$bll->getLastTopic();
                 <?php }?>
             </ul>
             <label for="uiid">*識別碼：</label>
-            <input type="text" id="uiid" name="uiid" required>
+            <input type="text" id="uiid" name="uiid" required value="">
             <br>
             <img id="vImage" src="verification.php">
             <br>
