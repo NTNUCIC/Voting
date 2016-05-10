@@ -4,8 +4,9 @@ SessionManager::start();
 
 $bll=new BLL\VotingBLL();
 
+$form=new FormVerification();
+$results=$form->getResult();
 if($_POST["action"]=="vote") {
-    $form=new FormVerification();
     $form->setRequired(array(
         "option"=>"選項",
         "uiid"=>"識別碼",
@@ -16,7 +17,6 @@ if($_POST["action"]=="vote") {
     $form->setEqual("iv",SessionManager::get("verification"),"圖形驗證碼");
     $form->verify();
     $log=$form->getErrorLog();
-    $results=$form->getResult();
     if($form->noError()) {
         $log->addLogs($bll->vote(
             $results["TopicId"],
@@ -60,13 +60,13 @@ $data=$bll->getLastTopic();
             <ul>
                 <?php foreach($data["Option"] as $option) {?>
                     <li>
-                        <input type="radio" id="o<?=$option['OptionId']?>" name="option" value="<?=$option['OptionId']?>">
+                        <input type="radio" id="o<?=$option['OptionId']?>" name="option" value="<?=$option['OptionId']?>"<?=$results['option']==$option['OptionId']?" checked":""?>>
                         <label for="o<?=$option['OptionId']?>"><?=$option['OptionName']?></label>
                     </li>
                 <?php }?>
             </ul>
             <label for="uiid">*識別碼：</label>
-            <input type="text" id="uiid" name="uiid" required value="">
+            <input type="text" id="uiid" name="uiid" required value="<?=$results['uiid']?>">
             <br>
             <img id="vImage" src="verification.php">
             <br>
