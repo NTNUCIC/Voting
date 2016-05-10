@@ -24,7 +24,7 @@ class VotingDAL extends DALBase
     {
         $query="select ";
         $query.=" A.OptionId,A.OptionName,A.OptionCount ";
-        $query.=" from Option A ";
+        $query.=" from `Option` A ";
         $query.=" where A.TopicId=?";
         return $this->exec($query,[$topic],true);
     }
@@ -43,7 +43,7 @@ class VotingDAL extends DALBase
     {
         $query="select ";
         $query.=" count(1) C ";
-        $query.=" from Option A ";
+        $query.=" from `Option` A ";
         $query.=" where A.TopicId=? and A.OptionId=? ";
         $result=$this->exec($query,[$topic,$option],true);
         return intval($result[0]["C"])>0;
@@ -51,7 +51,7 @@ class VotingDAL extends DALBase
 
     public function vote($option)
     {
-        $query="update Option set ";
+        $query="update `Option` set ";
         $query.=" OptionCount=OptionCount+1 ";
         $query.=" where OptionId=?";
         $this->exec($query,[$option]);

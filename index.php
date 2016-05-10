@@ -34,13 +34,13 @@ $data=$bll->getLastTopic();
     <meta charset="UTF-8">
     <title>NTNUCIC Voting</title>
 
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
 
     <meta name="og:title" content="國立臺灣師範大學資訊研究社">
     <meta name="og:url" content="http://ntnucic.github.io/104/">
     <meta name="og:description" content="國立臺灣師範大學資訊研究社">
-    <meta name="og:image" content="images/cic.jpg">
+    <meta name="og:image" content="assets/cic.jpg">
     <meta name="og:site_name" content="NTNUCIC">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +49,9 @@ $data=$bll->getLastTopic();
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 <body>
-    <header></header>
+    <header>
+        <h1>國立臺灣師範大學資訊研究社--投票系統</h1>
+    </header>
     <main>
         <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
         <h2><?=$data['TopicName']?></h2>
@@ -66,17 +68,25 @@ $data=$bll->getLastTopic();
             <label for="uiid">*識別碼：</label>
             <input type="text" id="uiid" name="uiid" required>
             <br>
-            <img src="" alt="">
+            <img id="vImage" src="verification.php">
+            <br>
             <label for="iv">*圖形驗證碼：</label>
             <input type="text" id="iv" name="iv" required>
+            <button type="button" id="refresh">刷新</button>
             <br>
             <input type="hidden" name="action" value="vote">
-            <input type="hidden" name="tid" value="<?=$data['TopicId']?>">
+            <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
             <button type="submit">送出</button>
         </form>
     </main>
     <footer>
         <p>Copyright &copy; NTNUCIC 2015</p>
     </footer>
+    <script>
+        document.getElementById("refresh").addEventListener("click",function(){
+            document.getElementById("vImage").src="verification.php?t="+new Date().getTime();
+            document.getElementById("iv").value="";
+        });
+    </script>
 </body>
 </html>
