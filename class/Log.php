@@ -8,6 +8,14 @@ class Log
         $this->logs[]=$log;
     }
 
+    public function addLogs($log2)
+    {
+        $logs2=$log2->getLogs();
+        foreach($logs2 as $value) {
+            $this->add($value);
+        }
+    }
+
     public function logsCount()
     {
         return count($this->logs);
