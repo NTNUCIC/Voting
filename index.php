@@ -37,9 +37,9 @@ $data=$bll->getLastTopic();
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
 
-    <meta name="og:title" content="國立臺灣師範大學資訊研究社">
-    <meta name="og:url" content="http://ntnucic.github.io/104/">
-    <meta name="og:description" content="國立臺灣師範大學資訊研究社">
+    <meta name="og:title" content="師大資研社--投票系統">
+    <meta name="og:url" content="http://web.ntnucic.club/vote">
+    <meta name="og:description" content="國立臺灣師範大學資訊研究社專屬，線上不記名投票系統">
     <meta name="og:image" content="assets/cic.jpg">
     <meta name="og:site_name" content="NTNUCIC">
 

@@ -36,20 +36,7 @@ if($_POST["action"]=="log-in") {
 <head>
     <meta charset="UTF-8">
     <title>NTNUCIC Voting</title>
-
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
-
-    <meta name="og:title" content="國立臺灣師範大學資訊研究社">
-    <meta name="og:url" content="http://ntnucic.github.io/104/">
-    <meta name="og:description" content="國立臺灣師範大學資訊研究社">
-    <meta name="og:image" content="../assets/cic.jpg">
-    <meta name="og:site_name" content="NTNUCIC">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <?require_once("head.php");?>
 </head>
 <body>
     <header>
