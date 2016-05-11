@@ -25,11 +25,19 @@ class VotingBLL extends BLLBase
         return $result;
     }
 
-    public function getTopic()
+    public function getAllTopic()
     {
-        $result=$this->dal->getTopic();
-        for($i=0;$i<count($result);$i++) {
-            $result[$i]["Option"]=$this->dal->getOption($result[$i]["TopicId"]);
+        return $this->dal->getTopic();
+    }
+
+    public function getTopic($id)
+    {
+        $result=$this->dal->getTopic($id);
+        if(count($result)) {
+            $result=$result[0];
+            $result["Option"]=$this->dal->getOption($id);
+        } else {
+            $result=null;
         }
         return $result;
     }

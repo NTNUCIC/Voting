@@ -8,7 +8,7 @@ class VotingDAL extends DALBase
     public function getTopic($id=null)
     {
         $query="select ";
-        $query.=" A.TopicId,A.TopicName,A.TopicDesc ";
+        $query.=" A.TopicId,A.TopicName,A.TopicDesc,A.TopicEnable ";
         $query.=" from Topic A ";
         $query.=" where A.TopicEnable='1' ";
         $param=[];
