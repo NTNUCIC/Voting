@@ -3,7 +3,27 @@ require_once("../autoload.php");
 SessionManager::start();
 require_once("CheckAdmin.php");
 
-
+$form=new FormVerification();
+$results=$form->getResult();
+if($_POST["action"]=="add") {
+    $form->setRequired(array(
+        "name"=>"議題名稱",
+    ));
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $bll=new BLL\VotingBLL();
+        $options=[];
+        $optionCount=intval($results["option-number"]);
+        for($i=1;$i<=$optionCount;$i++) {
+            $options[]=$results["option".$i];
+        }
+        $id=$bll->addTopic($results["name"],$results["desc"],$results["enable"],$options);
+        header("HTTP/1.1 302 Redirect");
+        header("Location: topic.php?id=".$id);
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,10 +44,13 @@ require_once("CheckAdmin.php");
         <h2>新增議題：</h2>
         <form action="" method="post">
             <label for="name">*議題名稱：</label>
-            <input type="text" id="name" name="name" required value="">
+            <input type="text" id="name" name="name" required>
             <br>
-            <label for="desc">*議題描述：</label>
+            <label for="desc">議題描述：</label>
             <textarea name="desc" id="desc" cols="50" rows="10"></textarea>
+            <br>
+            <label for="enable">是否啟用：</label>
+            <input type="checkbox" id="enable" name="enable" value="t" checked>
             <br>
             <input type="hidden" name="action" value="add">
             <h4>選項：</h4>

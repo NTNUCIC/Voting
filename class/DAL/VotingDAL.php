@@ -56,4 +56,23 @@ class VotingDAL extends DALBase
         $query.=" where OptionId=?";
         $this->exec($query,[$option]);
     }
+
+    public function addTopic($name,$desc,$enable)
+    {
+        $query="insert into Topic ";
+        $query.=" (TopicName,TopicDesc,TopicEnable) ";
+        $query.=" values (?,?,?)";
+        $this->exec($query,[$name,$desc,$enable]);
+        $query="select last_insert_id() id";
+        $result=$this->exec($query,null,true);
+        return $result[0]["id"];
+    }
+
+    public function addOption($topic,$option)
+    {
+        $query="insert into `Option` ";
+        $query.=" (TopicId,OptionName,OptionCount) ";
+        $query.=" values (?,?,0)";
+        $this->exec($query,[$topic,$option]);
+    }
 }
