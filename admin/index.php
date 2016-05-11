@@ -36,7 +36,7 @@ if($_POST["action"]=="log-in") {
 <head>
     <meta charset="UTF-8">
     <title>NTNUCIC Voting</title>
-    <?require_once("head.php");?>
+    <?php require_once("head.php");?>
 </head>
 <body>
     <header>
@@ -62,7 +62,7 @@ if($_POST["action"]=="log-in") {
         </form>
     </main>
     <footer>
-        <p>Copyright &copy; NTNUCIC 2015</p>
+        <?php require_once("footer.php");?>
     </footer>
     <script>
         document.getElementById("refresh").addEventListener("click",function(){
