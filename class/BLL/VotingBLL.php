@@ -19,7 +19,6 @@ class VotingBLL extends BLLBase
         $temp=$this->dal->getTopic();
         if(count($temp)) {
             $result=$temp[0];
-            $result["TopicDesc"]=StringFilter::textareaOutput($result["TopicDesc"]);
             $result["Option"]=$this->dal->getOption($result["TopicId"]);
         } else {
             $result=null;
@@ -37,7 +36,6 @@ class VotingBLL extends BLLBase
         $result=$this->dal->getTopic($id);
         if(count($result)) {
             $result=$result[0];
-            $result["TopicDesc"]=StringFilter::textareaOutput($result["TopicDesc"]);
             $result["Option"]=$this->dal->getOption($id);
         } else {
             $result=null;
