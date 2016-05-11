@@ -40,7 +40,7 @@ if($_POST["action"]=="log-in") {
 </head>
 <body>
     <header>
-        <h1>國立臺灣師範大學資訊研究社--投票系統--後台管理系統</h1>
+        <?php require_once("header.php");?>
     </header>
     <main>
         <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
