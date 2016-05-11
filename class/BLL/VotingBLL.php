@@ -46,6 +46,8 @@ class VotingBLL extends BLLBase
             $log->add("識別碼不存在!");
         } elseif($uidal->uiidUsed($uiid)) {
             $log->add("識別碼已被使用!");
+        } elseif($uidal->uiidTopic($uiid)!=$topic) {
+            $log->add("識別碼與議題不符合!");
         } else {
             $this->dal->vote($option);
             $uidal->useUiid($uiid);

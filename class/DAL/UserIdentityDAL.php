@@ -25,6 +25,16 @@ class UserIdentityDAL extends DALBase
         return $result[0]["UIUsed"]==1;
     }
 
+    public function uiidTopic($uiid)
+    {
+        $query="select ";
+        $query.=" A.TopicId ";
+        $query.=" from UserIdentity A ";
+        $query.=" where A.UIID=?";
+        $result=$this->exec($query,[$uiid],true);
+        return $result[0]["TopicId"];
+    }
+
     public function useUiid($uiid)
     {
         $query="update UserIdentity set ";
