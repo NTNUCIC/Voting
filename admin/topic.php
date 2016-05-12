@@ -113,7 +113,7 @@ function getValue($name)
                 <textarea name="TopicDesc" id="desc" cols="50" rows="10"><?=getValue('TopicDesc')?></textarea>
                 <br>
                 <label for="enable">是否啟用：</label>
-                <input type="checkbox" id="enable" name="enable" value="1"<?=getValue('TopicEnable')=="1"?" checked":""?>>
+                <input type="checkbox" id="enable" name="TopicEnable" value="1"<?=getValue('TopicEnable')=="1"?" checked":""?>>
                 <br>
                 <button type="submit">修改</button>
                 <button id="delete-topic" type="button">刪除議題</button>
