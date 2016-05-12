@@ -42,4 +42,20 @@ class UserIdentityDAL extends DALBase
         $query.=" where UIID=?";
         $this->exec($query,[$uiid]);
     }
+
+    public function getUiid($topic)
+    {
+        $query="select ";
+        $query.=" A.UIID,A.UIUsed,A.UIMemo ";
+        $query.=" from UserIdentity A ";
+        $query.=" where A.TopicId=?";
+        return $this->exec($query,[$topic],true);
+    }
+
+    public function deleteUiid($topic)
+    {
+        $query="delete from UserIdentity ";
+        $query.=" where TopicId=?";
+        $this->exec($query,[$topic]);
+    }
 }

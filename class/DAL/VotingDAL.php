@@ -75,4 +75,28 @@ class VotingDAL extends DALBase
         $query.=" values (?,?,0)";
         $this->exec($query,[$topic,$option]);
     }
+
+    public function editTopic($id,$name,$desc,$enable)
+    {
+        $query="update Topic set ";
+        $query.=" TopicName=?, ";
+        $query.=" TopicDesc=?, ";
+        $query.=" TopicEnable=? ";
+        $query.=" where TopicId=?";
+        $this->exec($query,[$name,$desc,$enable,$id]);
+    }
+
+    public function deleteTopic($id)
+    {
+        $query="delete from Topic ";
+        $query.=" where TopicId=?";
+        $this->exec($query,[$id]);
+    }
+
+    public function deleteOption($topic)
+    {
+        $query="delete from `Option` ";
+        $query.=" where TopicId=?";
+        $this->exec($query,[$topic]);
+    }
 }

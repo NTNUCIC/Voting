@@ -43,6 +43,12 @@ class VotingBLL extends BLLBase
         return $result;
     }
 
+    public function getUiids($topic)
+    {
+        $uidal=new UserIdentityDAL($this->db);
+        return $uidal->getUiid($topic);
+    }
+
     public function vote($topic,$option,$uiid)
     {
         $uidal=new UserIdentityDAL($this->db);
@@ -74,5 +80,27 @@ class VotingBLL extends BLLBase
             $this->dal->addOption($id,$option);
         }
         return $id;
+    }
+
+    public function editTopic($id,$name,$desc,$enable)
+    {
+        $log=new \Log();
+        if(!$this->dal->topicExist($id)) {
+            $log->add("議題不存在!");
+        } else {
+            $desc=StringFilter::textareaInput($desc);
+            $enable=$enable=="1"?"1":"0";
+            $this->dal->editTopic($id,$name,$desc,$enable);
+            $log->add("修改完成!");
+        }
+        return $log;
+    }
+
+    public function deleteTopic($id)
+    {
+        $uidal=new UserIdentityDAL($this->db);
+        $this->dal->deleteTopic($id);
+        $this->dal->deleteOption($id);
+        $uidal->deleteUiid($id);
     }
 }
