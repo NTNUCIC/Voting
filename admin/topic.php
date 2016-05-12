@@ -42,6 +42,20 @@ if($_POST["action"]=="edit") {
         header("Location: main.php");
         exit;
     }
+} elseif($_POST["action"]=="new-uiid") {
+    $form->setRequired(array(
+        "id",
+        "new-uiid-number"=>"識別碼數量",
+    ));
+    $form->setEqual("id",$id,"id");
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $log->addLogs($bll->addUiid(
+            $id,
+            $results["new-uiid-number"]
+        ));
+    }
 }
 
 $data=$bll->getTopic($id);
@@ -117,6 +131,33 @@ function getValue($name)
             </section>
             <section>
                 <h3>識別碼：</h3>
+                <label for="new-uiid-number">產生識別碼：</label>
+                <input type="number" id="new-uiid-number" name="new-uiid-number" min="0" value="1">
+                <button id="new-uiid" type="button">產生</button>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>識別碼</td>
+                            <td>使用</td>
+                            <td>備註</td>
+                            <td>動作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for($i=0;$i<count($uiids);$i++) {?>
+                            <tr>
+                                <td><?=$uiids[$i]['UIID']?></td>
+                                <td><?=$uiids[$i]['UIUsed']?></td>
+                                <td><?=$uiids[$i]['UIMemo']?></td>
+                                <td>
+                                    <button id="memo-uiid<?=$uiids[$i]?>" type="button">備註</button>
+                                    <button id="delete-uiid<?=$uiids[$i]?>" type="button">刪除</button>
+                                </td>
+                            </tr>
+                        <?php }?>
+                    </tbody>
+                </table>
             </section>
         </form>
     </main>
@@ -151,6 +192,11 @@ function getValue($name)
                 document.getElementById("action").value="delete";
                 document.getElementById("form1").submit();
             }
+        });
+
+        document.getElementById("new-uiid").addEventListener("click",function(){
+            document.getElementById("action").value="new-uiid";
+            document.getElementById("form1").submit();
         });
     </script>
 </body>

@@ -8,6 +8,8 @@ use \StringFilter;
 
 class VotingBLL extends BLLBase
 {
+    private $uiidBase=[];
+
     public function __construct(&$dbm=null)
     {
         parent::__construct($dbm);
@@ -101,6 +103,45 @@ class VotingBLL extends BLLBase
         $uidal=new UserIdentityDAL($this->db);
         $this->dal->deleteTopic($id);
         $this->dal->deleteOption($id);
-        $uidal->deleteUiid($id);
+        $uidal->deleteTopicUiid($id);
+    }
+
+    public function addUiid($topic,$number)
+    {
+        $uidal=new UserIdentityDAL($this->db);
+        $log=new \Log();
+        if(!is_numeric($number)) {
+            $log->add("格式錯誤!");
+        } elseif(!$this->dal->topicExist($topic)) {
+            $log->add("議題不存在!");
+        } else {
+            for($i=0;$i<=9;$i++) {      //0~9
+                $this->uiidBase[]=$i;
+            }
+            for($i=97;$i<=122;$i++) {    //a~z
+                $this->uiidBase[]=sprintf("%c", $i);
+            }
+            $number=intval($number);
+            for($i=0;$i<$number;$i++) {
+                $uiid=$this->generateUiid();
+                if($uidal->uiidExist($uiid)) {
+                    $i--;
+                    continue;
+                } else {
+                    $uidal->addUiid($topic,$uiid);
+                }
+            }
+            $log->add("新增".$number."個識別碼成功!");
+        }
+        return $log;
+    }
+
+    private function generateUiid()
+    {
+        $uiid="";
+        for($i=0;$i<64;$i++) {
+            $uiid.=$this->uiidBase[rand(0,35)];
+        }
+        return $uiid;
     }
 }

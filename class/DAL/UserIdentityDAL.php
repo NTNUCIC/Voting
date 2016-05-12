@@ -52,10 +52,18 @@ class UserIdentityDAL extends DALBase
         return $this->exec($query,[$topic],true);
     }
 
-    public function deleteUiid($topic)
+    public function deleteTopicUiid($topic)
     {
         $query="delete from UserIdentity ";
         $query.=" where TopicId=?";
         $this->exec($query,[$topic]);
+    }
+
+    public function addUiid($topic,$uiid)
+    {
+        $query="insert into UserIdentity ";
+        $query.=" (UIID,TopicId,UIUsed) ";
+        $query.=" values (?,?,0)";
+        $this->exec($query,[$uiid,$topic]);
     }
 }
