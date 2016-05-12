@@ -28,12 +28,12 @@ class VotingBLL extends BLLBase
 
     public function getAllTopic()
     {
-        return $this->dal->getTopic();
+        return $this->dal->getTopic(null,false);
     }
 
     public function getTopic($id)
     {
-        $result=$this->dal->getTopic($id);
+        $result=$this->dal->getTopic($id,false);
         if(count($result)) {
             $result=$result[0];
             $result["Option"]=$this->dal->getOption($id);
@@ -43,7 +43,7 @@ class VotingBLL extends BLLBase
         return $result;
     }
 
-    public function getUiids($topic)
+    public function getUiid($topic)
     {
         $uidal=new UserIdentityDAL($this->db);
         return $uidal->getUiid($topic);

@@ -5,16 +5,19 @@ use DAL\DALBase;
 
 class VotingDAL extends DALBase
 {
-    public function getTopic($id=null)
+    public function getTopic($id=null,$enable=true)
     {
         $query="select ";
         $query.=" A.TopicId,A.TopicName,A.TopicDesc,A.TopicEnable ";
         $query.=" from Topic A ";
-        $query.=" where A.TopicEnable='1' ";
+        $query.=" where 1=1 ";
         $param=[];
         if(!is_null($id)) {
             $query.=" and A.TopicId=? ";
             $param[]=$id;
+        }
+        if($enable) {
+            $query.=" and A.TopicEnable='1' ";
         }
         $query.=" order by A.TopicEnable desc,A.TopicId desc ";
         return $this->exec($query,$param,true);

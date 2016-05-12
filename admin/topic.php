@@ -15,8 +15,8 @@ $form=new FormVerification();
 $results=$form->getResult();
 if($_POST["action"]=="edit") {
     $form->setRequired(array(
-        "id"
-        "name"=>"議題名稱",
+        "id",
+        "TopicName"=>"議題名稱",
     ));
     $form->setEqual("id",$id,"id");
     $form->verify();
@@ -29,9 +29,9 @@ if($_POST["action"]=="edit") {
             $results["TopicEnable"]
         ));
     }
-} else if($_POST["action"]=="delete") {
+} elseif($_POST["action"]=="delete") {
     $form->setRequired(array(
-        "id"
+        "id",
     ));
     $form->setEqual("id",$id,"id");
     $form->verify();
@@ -49,7 +49,7 @@ if(is_null($data)) {
     noTopic();
 }
 $data["TopicDesc"]=StringFilter::textareaOutput($data["TopicDesc"]);
-$uiids=$bll->getUiids($id);
+$uiids=$bll->getUiid($id);
 
 function noTopic()
 {?>
@@ -96,9 +96,7 @@ function getValue($name)
                 <input type="text" id="name" name="TopicName" required value="<?=getValue('TopicName')?>">
                 <br>
                 <label for="desc">議題描述：</label>
-                <textarea name="TopicDesc" id="desc" cols="50" rows="10">
-                    <?=getValue('TopicDesc')?>
-                </textarea>
+                <textarea name="TopicDesc" id="desc" cols="50" rows="10"><?=getValue('TopicDesc')?></textarea>
                 <br>
                 <label for="enable">是否啟用：</label>
                 <input type="checkbox" id="enable" name="enable" value="1"<?=getValue('TopicEnable')=="1"?" checked":""?>>
@@ -126,7 +124,7 @@ function getValue($name)
         <?php require_once("footer.php");?>
     </footer>
     <script>
-        function addOption(id){
+        /*function addOption(id){
             var label=document.createElement("label");
             label.innerHTML="選項"+id+"：";
             label.setAttribute("for","option"+id);
@@ -146,7 +144,7 @@ function getValue($name)
                 addOption(id+i);
             }
             document.getElementById("option-number").value=id+num-1;
-        });
+        });*/
 
         document.getElementById("delete-topic").addEventListener("click",function(){
             if(confirm("刪除後無法回復，是否確定刪除?")){
