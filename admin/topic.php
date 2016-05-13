@@ -146,6 +146,28 @@ function getValue($name)
             </section>
             <section>
                 <h3>選項：</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>選項內容</td>
+                            <td>票數</td>
+                            <td>動作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($data["Option"] as $datarow) {?>
+                            <tr>
+                                <td id="option-name<?=$datarow['OptionId']?>"><?=$datarow['OptionName']?></td>
+                                <td><?=$datarow['OptionCount']?></td>
+                                <td>
+                                    <input type="hidden" class="option-id" id="option-id<?=$datarow['OptionId']?>" value="<?=$datarow['OptionId']?>">
+                                    <button type="button" id="rename-option<?=$datarow['OptionId']?>">編輯</button>
+                                    <button type="button" id="delete-option<?=$datarow['OptionId']?>">刪除</button>
+                                </td>
+                            </tr>
+                        <?php }?>
+                    </tbody>
+                </table>
                 <!--
                 <section id="options"></section>
                 <label for="add-option-number">新增選項：</label>
@@ -213,6 +235,28 @@ function getValue($name)
             document.getElementById("option-number").value=id+num-1;
         });*/
 
+        function renameOptionHandler(id){
+            return function(e){
+                var newname=prompt("輸入選項內容：",document.getElementById("option-name"+id).innerHTML);
+                if(newname){
+                    document.getElementById("action-id").value=id;
+                    document.getElementById("action-value").value=newname;
+                    document.getElementById("action").value="rename-option";
+                    document.getElementById("form1").submit();
+                }
+            };
+        }
+
+        function deleteOptionHandler(id){
+            return function(e){
+                if(confirm("刪除後無法回復，是否確定刪除?")){
+                    document.getElementById("action-id").value=id;
+                    document.getElementById("action").value="delete-option";
+                    document.getElementById("form1").submit();
+                }
+            };
+        }
+
         function memoUiidHandler(id){
             return function(e){
                 var newmemo=prompt("輸入註解：",document.getElementById("uiid-memo"+id).innerHTML);
@@ -241,6 +285,13 @@ function getValue($name)
                 document.getElementById("form1").submit();
             }
         });
+
+        var optionIdList=document.getElementsByClassName("option-id");
+        for(var i=0;i<optionIdList.length;i++){
+            var id=optionIdList[i].value;
+            document.getElementById("rename-option"+id).addEventListener("click",renameOptionHandler(id));
+            document.getElementById("delete-option"+id).addEventListener("click",deleteOptionHandler(id));
+        }
 
         document.getElementById("new-uiid").addEventListener("click",function(){
             document.getElementById("action").value="new-uiid";
