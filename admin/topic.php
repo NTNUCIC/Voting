@@ -56,6 +56,30 @@ if($_POST["action"]=="edit") {
             $results["new-uiid-number"]
         ));
     }
+} elseif($_POST["action"]=="memo-uiid") {
+    $form->setRequired(array(
+        "action-id",
+        "action-value",
+    ));
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $log->addLogs($bll->memoUiid(
+            $results["action-id"],
+            $results["action-value"]
+        ));
+    }
+} elseif($_POST["action"]=="delete-uiid") {
+    $form->setRequired(array(
+        "action-id",
+    ));
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $log->addLogs($bll->deleteUiid(
+            $results["action-id"]
+        ));
+    }
 }
 
 $data=$bll->getTopic($id);
@@ -104,6 +128,8 @@ function getValue($name)
         <form id="form1" action="" method="post">
             <input type="hidden" id="id" name="id" value="<?=$id?>">
             <input type="hidden" id="action" name="action" value="edit">
+            <input type="hidden" id="action-id" name="action-id">
+            <input type="hidden" id="action-value" name="action-value">
             <section>
                 <h3>編輯議題：</h3>
                 <label for="name">*議題名稱：</label>
@@ -147,12 +173,12 @@ function getValue($name)
                     <tbody>
                         <?php for($i=0;$i<count($uiids);$i++) {?>
                             <tr>
-                                <td><?=$uiids[$i]['UIID']?></td>
+                                <td id="uiid<?=$i?>"><?=$uiids[$i]['UIID']?></td>
                                 <td><?=$uiids[$i]['UIUsed']?></td>
-                                <td><?=$uiids[$i]['UIMemo']?></td>
+                                <td id="uiid-memo<?=$i?>"><?=$uiids[$i]['UIMemo']?></td>
                                 <td>
-                                    <button id="memo-uiid<?=$uiids[$i]?>" type="button">備註</button>
-                                    <button id="delete-uiid<?=$uiids[$i]?>" type="button">刪除</button>
+                                    <button type="button" id="memo-uiid<?=$i?>">備註</button>
+                                    <button type="button" id="delete-uiid<?=$i?>">刪除</button>
                                 </td>
                             </tr>
                         <?php }?>
@@ -187,6 +213,28 @@ function getValue($name)
             document.getElementById("option-number").value=id+num-1;
         });*/
 
+        function memoUiidHandler(id){
+            return function(e){
+                var newmemo=prompt("輸入註解：",document.getElementById("uiid-memo"+id).innerHTML);
+                if(newmemo){
+                    document.getElementById("action-id").value=document.getElementById("uiid"+id).innerHTML;
+                    document.getElementById("action-value").value=newmemo;
+                    document.getElementById("action").value="memo-uiid";
+                    document.getElementById("form1").submit();
+                }
+            };
+        }
+
+        function deleteUiidHandler(id){
+            return function(e){
+                if(confirm("刪除後無法回復，是否確定刪除?")){
+                    document.getElementById("action-id").value=document.getElementById("uiid"+id).innerHTML;
+                    document.getElementById("action").value="delete-uiid";
+                    document.getElementById("form1").submit();
+                }
+            };
+        }
+
         document.getElementById("delete-topic").addEventListener("click",function(){
             if(confirm("刪除後無法回復，是否確定刪除?")){
                 document.getElementById("action").value="delete";
@@ -198,6 +246,11 @@ function getValue($name)
             document.getElementById("action").value="new-uiid";
             document.getElementById("form1").submit();
         });
+
+        for(var i=0;i<<?=count($uiids)?>;i++){
+            document.getElementById("memo-uiid"+i).addEventListener("click",memoUiidHandler(i));
+            document.getElementById("delete-uiid"+i).addEventListener("click",deleteUiidHandler(i));
+        }
     </script>
 </body>
 </html>

@@ -54,7 +54,8 @@ class UserIdentityDAL extends DALBase
 
     public function deleteTopicUiid($topic)
     {
-        $query="delete from UserIdentity ";
+        $query="delete ";
+        $query.=" from UserIdentity ";
         $query.=" where TopicId=?";
         $this->exec($query,[$topic]);
     }
@@ -65,5 +66,21 @@ class UserIdentityDAL extends DALBase
         $query.=" (UIID,TopicId,UIUsed) ";
         $query.=" values (?,?,0)";
         $this->exec($query,[$uiid,$topic]);
+    }
+
+    public function memoUiid($uiid,$memo)
+    {
+        $query="update UserIdentity set ";
+        $query.=" UIMemo=? ";
+        $query.=" where UIID=?";
+        $this->exec($query,[$memo,$uiid]);
+    }
+
+    public function deleteUiid($uiid)
+    {
+        $query="delete ";
+        $query.=" from UserIdentity ";
+        $query.=" where UIID=?";
+        $this->exec($query,[$uiid]);
     }
 }

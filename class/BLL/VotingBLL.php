@@ -5,6 +5,7 @@ use BLL\BLLBase;
 use DAL\VotingDAL;
 use DAL\UserIdentityDAL;
 use \StringFilter;
+use \Log;
 
 class VotingBLL extends BLLBase
 {
@@ -54,7 +55,7 @@ class VotingBLL extends BLLBase
     public function vote($topic,$option,$uiid)
     {
         $uidal=new UserIdentityDAL($this->db);
-        $log=new \Log();
+        $log=new Log();
         if(!$this->dal->topicExist($topic)) {
             $log->add("議題不存在!");
         } elseif(!$this->dal->optionExist($topic,$option)) {
@@ -86,7 +87,7 @@ class VotingBLL extends BLLBase
 
     public function editTopic($id,$name,$desc,$enable)
     {
-        $log=new \Log();
+        $log=new Log();
         if(!$this->dal->topicExist($id)) {
             $log->add("議題不存在!");
         } else {
@@ -109,7 +110,7 @@ class VotingBLL extends BLLBase
     public function addUiid($topic,$number)
     {
         $uidal=new UserIdentityDAL($this->db);
-        $log=new \Log();
+        $log=new Log();
         if(!is_numeric($number)) {
             $log->add("格式錯誤!");
         } elseif(!$this->dal->topicExist($topic)) {
@@ -133,6 +134,28 @@ class VotingBLL extends BLLBase
             }
             $log->add("新增".$number."個識別碼成功!");
         }
+        return $log;
+    }
+
+    public function memoUiid($uiid,$memo)
+    {
+        $uidal=new UserIdentityDAL($this->db);
+        $log=new Log();
+        if(!$uidal->uiidExist($uiid)) {
+            $log->add("識別碼不存在!");
+        } else {
+            $uidal->memoUiid($uiid,$memo);
+            $log->add("修改備註完成!");
+        }
+        return $log;
+    }
+
+    public function deleteUiid($uiid)
+    {
+        $uidal=new UserIdentityDAL($this->db);
+        $log=new Log();
+        $uidal->deleteUiid($uiid);
+        $log->add("刪除識別碼成功!");
         return $log;
     }
 
