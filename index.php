@@ -47,13 +47,17 @@ $data=$bll->getLastTopic();
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+    	#log{
+    		border: 1px dashed red;
+    	}
+    </style>
 </head>
 <body>
     <header>
         <h1>國立臺灣師範大學資訊研究社--投票系統</h1>
     </header>
     <main>
-        <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
         <h2><?=$data['TopicName']?></h2>
         <p><?=$data['TopicDesc']?></p>
         <form action="" method="post">
@@ -73,6 +77,7 @@ $data=$bll->getLastTopic();
             <label for="iv">*圖形驗證碼：</label>
             <input type="text" id="iv" name="iv" required>
             <button type="button" id="refresh">刷新</button>
+        	<?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
             <br>
             <input type="hidden" name="action" value="vote">
             <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
