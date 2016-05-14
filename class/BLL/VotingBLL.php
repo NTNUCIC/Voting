@@ -79,9 +79,7 @@ class VotingBLL extends BLLBase
         $desc=StringFilter::textareaInput($desc);
         $enable=$enable=="t"?"1":"0";
         $id=$this->dal->addTopic($name,$desc,$enable);
-        foreach($options as $option) {
-            $this->dal->addOption($id,$option);
-        }
+        $this->addOption($id,$options);
         return $id;
     }
 
@@ -156,6 +154,46 @@ class VotingBLL extends BLLBase
         $log=new Log();
         $uidal->deleteUiid($uiid);
         $log->add("刪除識別碼成功!");
+        return $log;
+    }
+
+    public function renameOption($id,$name)
+    {
+        $log=new Log();
+        if(!$this->dal->optionExist(null,$id)) {
+            $log->add("選項不存在!");
+        } else {
+            $this->dal->renameOption($id,$name);
+            $log->add("修改完成!");
+        }
+        return $log;
+    }
+
+    public function deleteOption($id)
+    {
+        $log=new Log();
+        if(!$this->dal->optionExist(null,$id)) {
+            $log->add("選項不存在!");
+        } else {
+            $this->dal->deleteOptionFromId($id);
+            $log->add("刪除完成!");
+        }
+        return $log;
+    }
+
+    public function addOption($topic,$options)
+    {
+        $log=new Log();
+        if(!$this->dal->topicExist($topic)) {
+            $log->add("議題不存在!");
+        } else {
+            foreach($options as $option) {
+                if(!(empty($option)&&$option!=0)) {
+                    $this->dal->addOption($topic,$option);
+                }
+            }
+            $log->add("新增選項成功!");
+        }
         return $log;
     }
 

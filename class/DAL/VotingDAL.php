@@ -47,8 +47,13 @@ class VotingDAL extends DALBase
         $query="select ";
         $query.=" count(1) C ";
         $query.=" from `Option` A ";
-        $query.=" where A.TopicId=? and A.OptionId=? ";
-        $result=$this->exec($query,[$topic,$option],true);
+        $query.=" where A.OptionId=? ";
+        $param=[$option];
+        if(!is_null($topic)) {
+            $query.=" and A.TopicId=? ";
+            $param[]=$topic;
+        }
+        $result=$this->exec($query,$param,true);
         return intval($result[0]["C"])>0;
     }
 
@@ -101,5 +106,21 @@ class VotingDAL extends DALBase
         $query="delete from `Option` ";
         $query.=" where TopicId=?";
         $this->exec($query,[$topic]);
+    }
+
+    public function renameOption($id,$name)
+    {
+        $query="update `Option` set ";
+        $query.=" OptionName=? ";
+        $query.=" where OptionId=?";
+        $this->exec($query,[$name,$id]);
+    }
+
+    public function deleteOptionFromId($id)
+    {
+        $query="delete ";
+        $query.=" from `Option` ";
+        $query.=" where OptionId=?";
+        $this->exec($query,[$id]);
     }
 }

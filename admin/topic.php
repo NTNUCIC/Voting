@@ -80,6 +80,49 @@ if($_POST["action"]=="edit") {
             $results["action-id"]
         ));
     }
+} elseif($_POST["action"]=="rename-option") {
+    $form->setRequired(array(
+        "action-id",
+        "action-value",
+    ));
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $log->addLogs($bll->renameOption(
+            $results["action-id"],
+            $results["action-value"]
+        ));
+    }
+} elseif($_POST["action"]=="delete-option") {
+    $form->setRequired(array(
+        "action-id",
+    ));
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $log->addLogs($bll->deleteOption(
+            $results["action-id"]
+        ));
+    }
+} elseif($_POST["action"]=="add-option") {
+    $form->setRequired(array(
+        "id",
+        "option-number",
+    ));
+    $form->setEqual("id",$id,"id");
+    $form->verify();
+    $log=$form->getErrorLog();
+    if($form->noError()) {
+        $options=[];
+        $optionCount=intval($results["option-number"]);
+        for($i=1;$i<=$optionCount;$i++) {
+            $options[]=$results["new-option".$i];
+        }
+        $log->addLogs($bll->addOption(
+            $id,
+            $options
+        ));
+    }
 }
 
 $data=$bll->getTopic($id);
@@ -168,14 +211,13 @@ function getValue($name)
                         <?php }?>
                     </tbody>
                 </table>
-                <!--
                 <section id="options"></section>
                 <label for="add-option-number">新增選項：</label>
                 <input type="number" id="add-option-number" min="0" value="1">
                 <button id="add-option" type="button">新增</button>
                 <br>
                 <input type="hidden" id="option-number" name="option-number" value="0">
-                -->
+                <button id="add-option-submit" type="button">新增選項</button>
             </section>
             <section>
                 <h3>識別碼：</h3>
@@ -213,13 +255,13 @@ function getValue($name)
         <?php require_once("footer.php");?>
     </footer>
     <script>
-        /*function addOption(id){
+        function addOption(id){
             var label=document.createElement("label");
-            label.innerHTML="選項"+id+"：";
-            label.setAttribute("for","option"+id);
+            label.innerHTML="新選項"+id+"：";
+            label.setAttribute("for","new-option"+id);
             var option=document.createElement("input");
-            option.setAttribute("id","option"+id);
-            option.setAttribute("name","option"+id);
+            option.setAttribute("id","new-option"+id);
+            option.setAttribute("name","new-option"+id);
             var br=document.createElement("br");
             document.getElementById("options").appendChild(label);
             document.getElementById("options").appendChild(option);
@@ -233,7 +275,12 @@ function getValue($name)
                 addOption(id+i);
             }
             document.getElementById("option-number").value=id+num-1;
-        });*/
+        });
+
+        document.getElementById("add-option-submit").addEventListener("click",function(){
+            document.getElementById("action").value="add-option";
+            document.getElementById("form1").submit();
+        });
 
         function renameOptionHandler(id){
             return function(e){
