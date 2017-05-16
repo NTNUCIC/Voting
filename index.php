@@ -69,14 +69,13 @@ $data=$bll->getLastTopic();
   </head>
 
   <body>
-    <header>
-        <h1>國立臺灣師範大學資訊研究社--投票系統</h1>
+    <header class="container">
+        <h1 class="form-signin-heading">國立臺灣師範大學資訊研究社--投票系統</h1>
     </header>
     <div class="container">
         <h2><?=$data['TopicName']?></h2>
         <p><?=$data['TopicDesc']?></p>
         <form class="form-signin">
-            <h2 class="form-signin-heading">asdsad</h2>
             <ul>
                 <?php foreach($data["Option"] as $option) {?>
                     <li>
@@ -85,18 +84,16 @@ $data=$bll->getLastTopic();
                     </li>
                 <?php }?>
             </ul>
-            <label class="sr-only" for="uiid">*識別碼：</label>
-            <input type="text" id="uiid" class="form-control" required  value="<?=$results['uiid']?>">
+            <label for="uiid" class="form-label">識別碼：</label>
+            <input type="text" id="uiid" class="form-control" required value="<?=$results['uiid']?>" placeholder="請輸入識別碼">
+            <label for="iv" class="form-label">圖形驗證：</label>
             <img id="vImage" src="verification.php">
-            <label class="sr-only" for="iv">*圖形驗證碼：</label>
-            <input type="text" id="iv" class="form-control" required>
-
-            <button type="button" id="refresh">刷新</button>
+            <button type="button" id="refresh" class="btn-sm btn-link refresh">刷新</button>
+            <input type="text" id="iv" class="form-control" required placeholder="請輸入圖形驗證碼">
             <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
-            <br>
             <input type="hidden" name="action" value="vote">
             <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
+            <button class="btn btn-lg btn-primary btn-block form-submit" type="submit">送出</button>
         </form>
 
     </div> 
