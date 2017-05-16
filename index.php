@@ -30,7 +30,7 @@ $data=$bll->getLastTopic();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>NTNUCIC Voting</title>
 
@@ -52,15 +52,31 @@ $data=$bll->getLastTopic();
     		border: 1px dashed red;
     	}
     </style>
-</head>
-<body>
+
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="./css/signin.css" rel="stylesheet">
+  </head>
+
+  <body>
     <header>
         <h1>國立臺灣師範大學資訊研究社--投票系統</h1>
     </header>
-    <main>
+    <div class="container">
         <h2><?=$data['TopicName']?></h2>
         <p><?=$data['TopicDesc']?></p>
-        <form action="" method="post">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">asdsad</h2>
             <ul>
                 <?php foreach($data["Option"] as $option) {?>
                     <li>
@@ -69,21 +85,21 @@ $data=$bll->getLastTopic();
                     </li>
                 <?php }?>
             </ul>
-            <label for="uiid">*識別碼：</label>
-            <input type="text" id="uiid" name="uiid" required value="<?=$results['uiid']?>">
-            <br>
+            <label class="sr-only" for="uiid">*識別碼：</label>
+            <input type="text" id="uiid" class="form-control" required  value="<?=$results['uiid']?>">
             <img id="vImage" src="verification.php">
-            <br>
-            <label for="iv">*圖形驗證碼：</label>
-            <input type="text" id="iv" name="iv" required>
+            <label class="sr-only" for="iv">*圖形驗證碼：</label>
+            <input type="text" id="iv" class="form-control" required>
+
             <button type="button" id="refresh">刷新</button>
-        	<?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
+            <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
             <br>
             <input type="hidden" name="action" value="vote">
             <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
-            <button type="submit">送出</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
         </form>
-    </main>
+
+    </div> 
     <footer>
         <p>Copyright &copy; NTNUCIC 2015</p>
     </footer>
@@ -93,5 +109,5 @@ $data=$bll->getLastTopic();
             document.getElementById("iv").value="";
         });
     </script>
-</body>
+  </body>
 </html>
