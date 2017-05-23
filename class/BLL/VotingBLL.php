@@ -17,6 +17,7 @@ class VotingBLL extends BLLBase
         $this->dal=new VotingDAL($this->db);
     }
 
+    // get the latest topic
     public function getLastTopic()
     {
         $temp=$this->dal->getTopic();
@@ -29,11 +30,13 @@ class VotingBLL extends BLLBase
         return $result;
     }
 
+    //get the topic list
     public function getAllTopic()
     {
         return $this->dal->getTopic(null,false);
     }
 
+    // get a topic by id
     public function getTopic($id)
     {
         $result=$this->dal->getTopic($id,false);
@@ -46,12 +49,14 @@ class VotingBLL extends BLLBase
         return $result;
     }
 
+    // get all uiid related to a topic
     public function getUiid($topic)
     {
         $uidal=new UserIdentityDAL($this->db);
         return $uidal->getUiid($topic);
     }
 
+    // vote for an option
     public function vote($topic,$option,$uiid)
     {
         $uidal=new UserIdentityDAL($this->db);
@@ -74,6 +79,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // add a new topic
     public function addTopic($name,$desc,$enable,$options)
     {
         $desc=StringFilter::textareaInput($desc);
@@ -83,6 +89,7 @@ class VotingBLL extends BLLBase
         return $id;
     }
 
+    // edit a topic
     public function editTopic($id,$name,$desc,$enable)
     {
         $log=new Log();
@@ -97,6 +104,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // delete a topic
     public function deleteTopic($id)
     {
         $uidal=new UserIdentityDAL($this->db);
@@ -105,6 +113,7 @@ class VotingBLL extends BLLBase
         $uidal->deleteTopicUiid($id);
     }
 
+    // add a uiid into db
     public function addUiid($topic,$number)
     {
         $uidal=new UserIdentityDAL($this->db);
@@ -135,6 +144,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // add a comment for an uiid
     public function memoUiid($uiid,$memo)
     {
         $uidal=new UserIdentityDAL($this->db);
@@ -148,6 +158,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // delete an uiid
     public function deleteUiid($uiid)
     {
         $uidal=new UserIdentityDAL($this->db);
@@ -157,6 +168,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // rename an option
     public function renameOption($id,$name)
     {
         $log=new Log();
@@ -181,6 +193,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // add an option
     public function addOption($topic,$options)
     {
         $log=new Log();
@@ -197,6 +210,7 @@ class VotingBLL extends BLLBase
         return $log;
     }
 
+    // genereate an uiid
     private function generateUiid()
     {
         $uiid="";

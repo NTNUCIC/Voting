@@ -5,6 +5,7 @@ use DAL\DALBase;
 
 class VotingDAL extends DALBase
 {
+    // get a topic's info by topic id
     public function getTopic($id=null,$enable=true)
     {
         $query="select ";
@@ -23,6 +24,7 @@ class VotingDAL extends DALBase
         return $this->exec($query,$param,true);
     }
 
+    // get a topic's option by topic id
     public function getOption($topic)
     {
         $query="select ";
@@ -32,6 +34,7 @@ class VotingDAL extends DALBase
         return $this->exec($query,[$topic],true);
     }
 
+    // check if a topic is exist by id
     public function topicExist($id)
     {
         $query="select ";
@@ -42,6 +45,7 @@ class VotingDAL extends DALBase
         return intval($result[0]["C"])>0;
     }
 
+    // check if an option in a topic is exist by topic and option id
     public function optionExist($topic,$option)
     {
         $query="select ";
@@ -57,6 +61,7 @@ class VotingDAL extends DALBase
         return intval($result[0]["C"])>0;
     }
 
+    // vote for an option
     public function vote($option)
     {
         $query="update `Option` set ";
@@ -65,6 +70,7 @@ class VotingDAL extends DALBase
         $this->exec($query,[$option]);
     }
 
+    // add a topic into db
     public function addTopic($name,$desc,$enable)
     {
         $query="insert into Topic ";
@@ -76,6 +82,7 @@ class VotingDAL extends DALBase
         return $result[0]["id"];
     }
 
+    // add an option into topic
     public function addOption($topic,$option)
     {
         $query="insert into `Option` ";
@@ -84,6 +91,7 @@ class VotingDAL extends DALBase
         $this->exec($query,[$topic,$option]);
     }
 
+    // edit a topic
     public function editTopic($id,$name,$desc,$enable)
     {
         $query="update Topic set ";
@@ -94,6 +102,7 @@ class VotingDAL extends DALBase
         $this->exec($query,[$name,$desc,$enable,$id]);
     }
 
+    // delete a topic
     public function deleteTopic($id)
     {
         $query="delete from Topic ";
@@ -101,6 +110,7 @@ class VotingDAL extends DALBase
         $this->exec($query,[$id]);
     }
 
+    // delete an option
     public function deleteOption($topic)
     {
         $query="delete from `Option` ";
@@ -108,6 +118,7 @@ class VotingDAL extends DALBase
         $this->exec($query,[$topic]);
     }
 
+    // rename an option
     public function renameOption($id,$name)
     {
         $query="update `Option` set ";
@@ -116,6 +127,7 @@ class VotingDAL extends DALBase
         $this->exec($query,[$name,$id]);
     }
 
+    // delete an option by id
     public function deleteOptionFromId($id)
     {
         $query="delete ";

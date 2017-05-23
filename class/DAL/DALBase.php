@@ -1,4 +1,5 @@
 <?php
+//The data access layer
 namespace DAL;
 
 use DBManager;

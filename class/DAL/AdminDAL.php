@@ -5,6 +5,7 @@ use DAL\DALBase;
 
 class AdminDAL extends DALBase
 {
+    // check the password
     public function hasAdmin($admin,$password)
     {
         $query="select ";

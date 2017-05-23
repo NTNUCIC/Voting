@@ -13,6 +13,7 @@ class AdminBLL extends BLLBase
         $this->dal=new AdminDAL($this->db);
     }
 
+    // admin login
     public function logIn($admin,$password)
     {
         $password=\StringFilter::hash($password);
@@ -24,11 +25,13 @@ class AdminBLL extends BLLBase
         }
     }
 
+    // check if is logged in
     public static function isLogIn()
     {
         return SessionManager::has("Admin");
     }
 
+    // logout
     public static function logOut()
     {
         SessionManager::clear();

@@ -3,8 +3,10 @@ namespace DAL;
 
 use DAL\DALBase;
 
+// UserIdentity ID (uiid) is a token to verify user
 class UserIdentityDAL extends DALBase
 {
+    // check if the uiid already exist in the database
     public function uiidExist($uiid)
     {
         $query="select ";
@@ -15,6 +17,7 @@ class UserIdentityDAL extends DALBase
         return intval($result[0]["C"])>0;
     }
 
+    // check if the uiid already voted
     public function uiidUsed($uiid)
     {
         $query="select ";
@@ -25,6 +28,7 @@ class UserIdentityDAL extends DALBase
         return $result[0]["UIUsed"]==1;
     }
 
+    // return the topic the uiid belongs to
     public function uiidTopic($uiid)
     {
         $query="select ";
@@ -35,6 +39,7 @@ class UserIdentityDAL extends DALBase
         return $result[0]["TopicId"];
     }
 
+    // mark the uiid as used
     public function useUiid($uiid)
     {
         $query="update UserIdentity set ";
@@ -43,6 +48,7 @@ class UserIdentityDAL extends DALBase
         $this->exec($query,[$uiid]);
     }
 
+    // get all uiids by a topic
     public function getUiid($topic)
     {
         $query="select ";
@@ -52,6 +58,7 @@ class UserIdentityDAL extends DALBase
         return $this->exec($query,[$topic],true);
     }
 
+    // delete all uiids belong to a topic
     public function deleteTopicUiid($topic)
     {
         $query="delete ";
@@ -60,6 +67,7 @@ class UserIdentityDAL extends DALBase
         $this->exec($query,[$topic]);
     }
 
+    // add a uiid
     public function addUiid($topic,$uiid)
     {
         $query="insert into UserIdentity ";
@@ -68,6 +76,7 @@ class UserIdentityDAL extends DALBase
         $this->exec($query,[$uiid,$topic]);
     }
 
+    // add a comment for uiid
     public function memoUiid($uiid,$memo)
     {
         $query="update UserIdentity set ";
@@ -76,6 +85,7 @@ class UserIdentityDAL extends DALBase
         $this->exec($query,[$memo,$uiid]);
     }
 
+    // delete a uiid
     public function deleteUiid($uiid)
     {
         $query="delete ";
