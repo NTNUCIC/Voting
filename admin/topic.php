@@ -1,3 +1,5 @@
+<!-- TODO: replace JS confirm/alert with bootstrap modal -->
+
 <?php
 require_once("../autoload.php");
 SessionManager::start();
@@ -158,114 +160,139 @@ function getValue($name)
     <meta charset="UTF-8">
     <title>NTNUCIC Voting</title>
     <?php require_once("head.php");?>
+    <link href="../css/general.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <?php require_once("header.php");?>
-    </header>
-    <nav>
-        <?php require_once("nav.php");?>
-    </nav>
+    <?php require_once("navbar.php");?>
     <main>
-        <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
-        <form id="form1" action="" method="post">
-            <input type="hidden" id="id" name="id" value="<?=$id?>">
-            <input type="hidden" id="action" name="action" value="edit">
-            <input type="hidden" id="action-id" name="action-id">
-            <input type="hidden" id="action-value" name="action-value">
-            <section>
-                <h3>編輯議題：</h3>
-                <label for="name">*議題名稱：</label>
-                <input type="text" id="name" name="TopicName" required value="<?=getValue('TopicName')?>">
-                <br>
-                <label for="desc">議題描述：</label>
-                <textarea name="TopicDesc" id="desc" cols="50" rows="10"><?=getValue('TopicDesc')?></textarea>
-                <br>
-                <label for="enable">是否啟用：</label>
-                <input type="checkbox" id="enable" name="TopicEnable" value="1"<?=getValue('TopicEnable')=="1"?" checked":""?>>
-                <br>
-                <button type="submit">修改</button>
-                <button id="delete-topic" type="button">刪除議題</button>
-            </section>
-            <section>
-                <h3>選項：</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <td>選項內容</td>
-                            <td>票數</td>
-                            <td>動作</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($data["Option"] as $datarow) {?>
-                            <tr>
-                                <td id="option-name<?=$datarow['OptionId']?>"><?=$datarow['OptionName']?></td>
-                                <td><?=$datarow['OptionCount']?></td>
-                                <td>
-                                    <input type="hidden" class="option-id" id="option-id<?=$datarow['OptionId']?>" value="<?=$datarow['OptionId']?>">
-                                    <button type="button" id="rename-option<?=$datarow['OptionId']?>">編輯</button>
-                                    <button type="button" id="delete-option<?=$datarow['OptionId']?>">刪除</button>
-                                </td>
-                            </tr>
-                        <?php }?>
-                    </tbody>
-                </table>
-                <section id="options"></section>
-                <label for="add-option-number">新增選項：</label>
-                <input type="number" id="add-option-number" min="0" value="1">
-                <button id="add-option" type="button">新增</button>
-                <br>
-                <input type="hidden" id="option-number" name="option-number" value="0">
-                <button id="add-option-submit" type="button">新增選項</button>
-            </section>
-            <section>
-                <h3>識別碼：</h3>
-                <label for="new-uiid-number">產生識別碼：</label>
-                <input type="number" id="new-uiid-number" name="new-uiid-number" min="0" value="1">
-                <button id="new-uiid" type="button">產生</button>
-                <br>
-                <table>
-                    <thead>
-                        <tr>
-                            <td>識別碼</td>
-                            <td>使用</td>
-                            <td>備註</td>
-                            <td>動作</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php for($i=0;$i<count($uiids);$i++) {?>
-                            <tr>
-                                <td id="uiid<?=$i?>"><?=$uiids[$i]['UIID']?></td>
-                                <td><?=$uiids[$i]['UIUsed']?></td>
-                                <td id="uiid-memo<?=$i?>"><?=$uiids[$i]['UIMemo']?></td>
-                                <td>
-                                    <button type="button" id="memo-uiid<?=$i?>">備註</button>
-                                    <button type="button" id="delete-uiid<?=$i?>">刪除</button>
-                                </td>
-                            </tr>
-                        <?php }?>
-                    </tbody>
-                </table>
-            </section>
-        </form>
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4> 編輯議題 </h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- TODO: Use bootstrap alert to show logs-->
+                        <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
+                        <form id="form1" action="" method="post">
+                            <input type="hidden" id="id" name="id" value="<?=$id?>">
+                            <input type="hidden" id="action" name="action" value="edit">
+                            <input type="hidden" id="action-id" name="action-id">
+                            <input type="hidden" id="action-value" name="action-value">
+                            <section>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label for="name">*議題名稱：</label>
+                                        <input class="form-control" type="text" id="name" name="TopicName" required value="<?=getValue('TopicName')?>">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                <label for="desc">議題描述：</label>
+                                <textarea class="form-control" name="TopicDesc" id="desc" cols="50" rows="10"><?=getValue('TopicDesc')?></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group form-inline col-lg-8">
+                                        <label for="enable">是否啟用：</label>
+                                        <input class="form-control" type="checkbox" id="enable" name="TopicEnable" value="1"<?=getValue('TopicEnable')=="1"?"                checked":""?>>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">修改</button>
+                                <button class="btn btn-primary" id="delete-topic" type="button">刪除議題</button>
+                            </section>
+                            <section>
+                                <h3>選項：</h3>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td>選項內容</td>
+                                            <td>票數</td>
+                                            <td>動作</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($data["Option"] as $datarow) {?>
+                                            <tr>
+                                                <td id="option-name<?=$datarow['OptionId']?>"><?=$datarow['OptionName']?></td>
+                                                <td><?=$datarow['OptionCount']?></td>
+                                                <td>
+                                    <input type="hidden" class="option-id" id="option-id<?=$datarow['OptionId']?>"              value="<?=$datarow['OptionId']?>">
+                                                    <button class="btn btn-primary" type="button" id="rename-option<?=$datarow['OptionId']?>">編輯</button>
+                                                    <button class="btn btn-primary" type="button" id="delete-option<?=$datarow['OptionId']?>">刪除</button>
+                                                </td>
+                                            </tr>
+                                        <?php }?>
+                                    </tbody>
+                                </table>
+                                <section id="options"></section>
+                                <div class="form-group form-inline">
+                                    <label for="add-option-number">新增選項：</label>
+                                    <input class="form-control" type="number" id="add-option-number" min="0" value="1">
+                                    <button class="btn btn-primary" id="add-option" type="button">新增</button>
+                                </div>
+                                <input type="hidden" id="option-number" name="option-number" value="0">
+                                <button class="btn btn-primary" id="add-option-submit" type="button">送出</button>
+                            </section>
+                            <section>
+                                <h3>識別碼：</h3>
+                                <div class="form-group form-inline">
+                                    <label for="new-uiid-number">產生識別碼：</label>
+                                    <input class="form-control" type="number" id="new-uiid-number" name="new-uiid-number" min="0" value="1">
+                                <button class="btn btn-primary" id="new-uiid" type="button">產生</button>
+                                </div>
+                                <br>
+                                <table class="table table-hover table-striped table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <td>識別碼</td>
+                                            <td>使用</td>
+                                            <td>備註</td>
+                                            <td>動作</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php for($i=0;$i<count($uiids);$i++) {?>
+                                            <tr>
+                                                <td id="uiid<?=$i?>"><?=$uiids[$i]['UIID']?></td>
+                                                <td><?=$uiids[$i]['UIUsed']?></td>
+                                                <td id="uiid-memo<?=$i?>"><?=$uiids[$i]['UIMemo']?></td>
+                                                <td>
+                                                    <button class="btn btn-primary" type="button" id="memo-uiid<?=$i?>">備註</button>
+                                                    <button class="btn btn-primary" type="button" id="delete-uiid<?=$i?>">刪除</button>
+                                                </td>
+                                            </tr>
+                                        <?php }?>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer>
-        <?php require_once("footer.php");?>
-    </footer>
+    <?php require_once("../footer.php");?>
     <script>
         function addOption(id){
+            var row=document.createElement("div");
+            row.setAttribute("class", row)
+            var container=document.createElement("div");
+            container.setAttribute("class", "form-group form-inline col=lg-6");
             var label=document.createElement("label");
-            label.innerHTML="新選項"+id+"：";
+            label.innerHTML="選項"+id+"：";
             label.setAttribute("for","new-option"+id);
             var option=document.createElement("input");
             option.setAttribute("id","new-option"+id);
             option.setAttribute("name","new-option"+id);
-            var br=document.createElement("br");
-            document.getElementById("options").appendChild(label);
-            document.getElementById("options").appendChild(option);
-            document.getElementById("options").appendChild(br);
+            option.setAttribute("type","text");
+            option.setAttribute("class","form-control");
+
+            container.appendChild(label);
+            container.appendChild(option);
+            row.appendChild(container);
+            document.getElementById("options").appendChild(container);
         }
 
         document.getElementById("add-option").addEventListener("click",function(){
