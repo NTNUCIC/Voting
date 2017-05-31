@@ -55,32 +55,36 @@ $data=$bll->getLastTopic();
                     <h3> 最新議題</h3>
                 </div>
                 <div class="panel-body">
-                    <h2><?=$data['TopicName']?></h2>
-                    <p><?=$data['TopicDesc']?></p>
-                    <form class="form-signin">
-                        <ul>
-                        <?php foreach($data["Option"] as $option) {?>
-                            <li>
-                            <input type="radio" id="o<?=$option['OptionId']?>" name="option" value="<?=$option['OptionId']?>"<?=$results['option']==$option['OptionId']?" checked":""?>>
-                            <label for="o<?=$option['OptionId']?>"><?=$option['OptionName']?></label>
-                            </li>
-                        <?php }?>
-                        </ul>
-                        <label for="uiid" class="form-label">識別碼：</label>
-                        <input type="text" id="uiid" class="form-control" required value="<?=$results['uiid']?>" placeholder="請輸入識別碼">
-                        <label for="iv" class="form-label">圖形驗證：</label>
-                        <img id="vImage" src="verification.php">
-                        <button type="button" id="refresh" class="btn-sm btn-link refresh">刷新</button>
-                        <input type="text" id="iv" class="form-control" required placeholder="請輸入圖形驗證碼">
-                        <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
-                        <input type="hidden" name="action" value="vote">
-                        <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
-                        <button class="btn btn-lg btn-primary btn-block form-submit" type="submit">送出</button>
-                    </form>
+                    <?php if(is_null($data)) {?>
+                        <h2>現在沒有議題!</h2>
+                    <?php } else {?>
+                        <h2><?=$data['TopicName']?></h2>
+                        <p><?=$data['TopicDesc']?></p>
+                        <form class="form-signin">
+                            <ul>
+                            <?php foreach($data["Option"] as $option) {?>
+                                <li>
+                                <input type="radio" id="o<?=$option['OptionId']?>" name="option" value="<?=$option['OptionId']?>"<?=$results['option']==$option['OptionId']?" checked":""?>>
+                                <label for="o<?=$option['OptionId']?>"><?=$option['OptionName']?></label>
+                                </li>
+                            <?php }?>
+                            </ul>
+                            <label for="uiid" class="form-label">識別碼：</label>
+                            <input type="text" id="uiid" class="form-control" required value="<?=$results['uiid']?>" placeholder="請輸入識別碼">
+                            <label for="iv" class="form-label">圖形驗證：</label>
+                            <img id="vImage" src="verification.php">
+                            <button type="button" id="refresh" class="btn-sm btn-link refresh">刷新</button>
+                            <input type="text" id="iv" class="form-control" required placeholder="請輸入圖形驗證碼">
+                            <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
+                            <input type="hidden" name="action" value="vote">
+                            <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
+                            <button class="btn btn-lg btn-primary btn-block form-submit" type="submit">送出</button>
+                        </form>
+                    <?php }?>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
     <?php require_once("footer.php");?>
     <script>
         document.getElementById("refresh").addEventListener("click",function(){
