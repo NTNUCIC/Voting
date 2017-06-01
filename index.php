@@ -60,7 +60,7 @@ $data=$bll->getLastTopic();
                     <?php } else {?>
                         <h2><?=$data['TopicName']?></h2>
                         <p><?=$data['TopicDesc']?></p>
-                        <form class="form-signin">
+                        <form class="form-signin" method="post">
                             <ul>
                             <?php foreach($data["Option"] as $option) {?>
                                 <li>
