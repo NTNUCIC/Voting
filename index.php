@@ -70,11 +70,11 @@ $data=$bll->getLastTopic();
                             <?php }?>
                             </ul>
                             <label for="uiid" class="form-label">識別碼：</label>
-                            <input type="text" id="uiid" class="form-control" required value="<?=$results['uiid']?>" placeholder="請輸入識別碼">
+                            <input type="text" id="uiid" name="uiid"> class="form-control" required value="<?=$results['uiid']?>" placeholder="請輸入識別碼">
                             <label for="iv" class="form-label">圖形驗證：</label>
                             <img id="vImage" src="verification.php">
                             <button type="button" id="refresh" class="btn-sm btn-link refresh">刷新</button>
-                            <input type="text" id="iv" class="form-control" required placeholder="請輸入圖形驗證碼">
+                            <input type="text" id="iv" name="iv" class="form-control" required placeholder="請輸入圖形驗證碼">
                             <?=!empty($log)&&$log->logsCount()>0?$log->toString("log"):""?>
                             <input type="hidden" name="action" value="vote">
                             <input type="hidden" name="TopicId" value="<?=$data['TopicId']?>">
