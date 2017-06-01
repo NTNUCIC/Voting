@@ -3,8 +3,7 @@
 define("SERVER_ENV","PROD");
 error_reporting(E_ALL);
 if(SERVER_ENV=="PROD") {
-    display_errors(false);
-    log_errors(true);
+    ini_set("display_errors","Off");
 }
 //autoload
 function autoload($className)

@@ -56,10 +56,12 @@ class DBManager
             }
         }
         catch(PDOException $ex) {
-            echo $ex->getMessage();
-            /*$errorlog=new Log();
-            $errorlog->add("PDO Execute Error:".$ex->getMessage());
-            $errorlog->log();*/
+            if(SERVER_ENV!="PROD") {
+                echo $ex->getMessage();
+                /*$errorlog=new Log();
+                $errorlog->add("PDO Execute Error:".$ex->getMessage());
+                $errorlog->log();*/
+            }
             throw new Exception("DB Error.");
         }
     }
